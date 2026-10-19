@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResumeLens — AI Resume Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      
+      <!-- ── TOP NAVIGATION ── -->
+      <nav class="top-nav" aria-label="Main Navigation">
+        <div class="nav-container">
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="36" rx="8" fill="#18181B" stroke="#27272A" />
+                <path d="M10 12h16M10 18h11M10 24h13" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" />
+                <circle cx="26" cy="24" r="4" fill="#10B981" />
+              </svg>
+            </div>
+            <div class="brand-text">
+              <p class="brand-name">ResumeLens</p>
+              <p class="brand-sub">Smart Resume Analysis</p>
+            </div>
+          </div>
+
+          <div class="nav-actions">
+            <div class="sidebar-stats">
+              <div class="sstat">
+                <span class="sstat-val">10MB</span>
+                <span class="sstat-key">Max</span>
+              </div>
+            </div>
+            
+            <div class="status-pill" id="statusPill">
+              <span class="status-dot"></span>
+              <span id="statusText">System Ready</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- ── MAIN WORKSPACE ── -->
+      <main class="workspace">
+        <div class="workspace-container">
+          
+          <header class="page-header">
+            <div class="header-copy">
+              <p class="eyebrow">ResumeLens • AI Resume Intelligence</p>
+              <h1>Make every application<br /><em>ATS-ready.</em></h1>
+            </div>
+            <p class="header-desc">
+              Upload your resume and a job description to get ATS match scores, keyword analysis, missing skills, and AI-powered suggestions tailored to the role.
+  </p>
+            </p>
+          </header>
+
+          <div class="work-grid">
+            
+            <!-- LEFT COLUMN: TOOLS & CONTROLS -->
+            <div class="tool-column">
+              
+              <!-- SCORE GAUGE (Moved to TOP) -->
+              <section class="panel gauge-block">
+                <div class="gauge-wrap">
+                  <svg class="gauge-svg" viewBox="0 0 140 140" aria-hidden="true">
+                    <circle class="gauge-track" cx="70" cy="70" r="56" />
+                    <circle class="gauge-fill" id="gaugeFill" cx="70" cy="70" r="56" />
+                    <text class="gauge-num" id="gaugeNum" x="70" y="64" text-anchor="middle">--</text>
+                    <text class="gauge-sub" x="70" y="86" text-anchor="middle">SCORE</text>
+                  </svg>
+                </div>
+                <p class="gauge-caption" id="scoreCaption">Awaiting document upload...</p>
+                <span id="scoreValue" class="sr-only">--</span>
+              </section>
+
+              <!-- UPLOAD -->
+              <section class="panel upload-card" aria-label="Resume upload">
+                <div class="panel-header">
+                  <span class="step-num">1</span>
+                  <h2>Document</h2>
+                </div>
+
+                <div class="upload-zone" id="uploadBox">
+                  <input id="resumeFile" type="file" accept=".pdf,.doc,.docx,.txt,.rtf" hidden />
+                  <button class="upload-btn" id="uploadButton" type="button" aria-label="Choose resume file">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M12 4.5v11M12 4.5L8 9M12 4.5l4 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M4.5 18.5h15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                  <div class="upload-text">
+                    <p class="upload-title">Drop resume here</p>
+                    <p class="upload-hint" id="fileName">PDF, DOCX, TXT, RTF</p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- CONTROLS -->
+              <section class="panel control-card" aria-label="Analysis controls">
+                <div class="panel-header">
+                  <span class="step-num">2</span>
+                  <h2>Analysis Mode</h2>
+                </div>
+
+                <div class="mode-group" role="tablist" aria-label="Analysis modes">
+                  <button class="mode-button active" type="button" data-mode="resume" role="tab">
+                    <div class="mode-copy">
+                      <strong>General Review</strong>
+                      <span>Skills, quality & improvement advice</span>
+                    </div>
+                    <span class="mode-check" aria-hidden="true">
+                      <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                  </button>
+                  <button class="mode-button" type="button" data-mode="ats" role="tab">
+                    <div class="mode-copy">
+                      <strong>ATS Match</strong>
+                      <span>Keyword match against a target JD</span>
+                    </div>
+                    <span class="mode-check" aria-hidden="true">
+                      <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                  </button>
+                </div>
+
+                <div class="field-group hidden" id="jdGroup">
+                  <label for="jobDescription">Target Job Description</label>
+                  <textarea id="jobDescription" rows="5" placeholder="Paste the target job description here…"></textarea>
+                </div>
+
+                <div class="action-row">
+                  <button class="btn-primary" id="analyzeButton" type="button">
+                    <span class="btn-label">Run Analysis</span>
+                  </button>
+                  <button class="btn-ghost" id="clearButton" type="button">Reset</button>
+                </div>
+              </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN: RESULTS -->
+            <div class="result-column">
+              <section class="panel results-panel" aria-label="Analysis results">
+                
+                <div class="result-empty" id="emptyState">
+                  <div class="empty-icon" aria-hidden="true">
+                    <svg viewBox="0 0 56 56" fill="none">
+                      <rect x="14" y="10" width="28" height="36" rx="4" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4" />
+                      <path d="M22 24h12M22 32h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <h3>Resume Insights</h3>
+                  <p>AI-powered resume insights, ATS score, and personalized recommendations will appear here after analysis.</p>
+                </div>
+
+                <div class="result-content is-hidden" id="resultContent">
+                  <div class="result-topbar">
+                    <div class="result-topbar-left">
+                      <span class="step-num step-success">3</span>
+                      <h2 id="resultTitle">Analysis Complete</h2>
+                    </div>
+                    
+                  </div>
+                  <div class="result-body" id="resultBody"></div>
+                </div>
+                
+              </section>
+            </div>
+
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
